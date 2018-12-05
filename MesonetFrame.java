@@ -57,7 +57,10 @@ public class MesonetFrame extends JFrame implements ActionListener
 
     JFileChooser fc;
     JTextArea log;
-    static private final String newline = "\n";
+    
+    MapData mapData;
+    String paramId = "";
+    
 
     class FileMenuBar extends JMenuBar
     {
@@ -120,8 +123,9 @@ public class MesonetFrame extends JFrame implements ActionListener
 
         menuBar.getOpenDataFile().addActionListener(this);
         menuBar.getExit().addActionListener(this);
-        
         exit.addActionListener(this);
+        calculate.addActionListener(this);
+        
     }
 
     public void actionPerformed(ActionEvent e)
@@ -151,19 +155,29 @@ public class MesonetFrame extends JFrame implements ActionListener
                 directory = fc.getCurrentDirectory().getName();
                 // This is where a real application would open the file.
                 filename = directory + "/" + file;
-                System.out.println(filename);
-                YEAR = (file.charAt(0) + file.charAt(1) + file.charAt(2) + file.charAt(3));
-                System.out.println(YEAR);
-                MONTH = (file.charAt(4) + file.charAt(5));
-                DAY = (file.charAt(6) + file.charAt(7));
-                HOUR = (file.charAt(8) + file.charAt(9));
-                MINUTE = (file.charAt(10) + file.charAt(11));
+                
+                String[] letters = file.split("");
+                String numbers = letters[0] + letters[1] + letters[2] + letters[3];
+                YEAR = Integer.parseInt(numbers);
+                
+                numbers = letters[4] + letters[5];
+                MONTH = Integer.parseInt(numbers);
+                
+                numbers = letters[6] + letters[7];
+                DAY = Integer.parseInt(numbers);
+                
+                numbers = letters[8] + letters[9];
+                HOUR = Integer.parseInt(numbers);
+                
+                numbers = letters[10] + letters[11];
+                MINUTE = Integer.parseInt(numbers);
 
-                MapData mapData = new MapData(YEAR, MONTH, DAY, HOUR, MINUTE, directory);
+                mapData = new MapData(YEAR, MONTH, DAY, HOUR, MINUTE, directory);
 
                 try
                 {
                     mapData.parseFile();
+                    System.out.println(mapData.getStatistics(StatsType.AVERAGE, "TAIR").getValue());
                 }
                 catch (IOException e1)
                 {
@@ -171,28 +185,35 @@ public class MesonetFrame extends JFrame implements ActionListener
                     e1.printStackTrace();
                 }
             }
-            else
-            {
-                log.append("Open command cancelled by user." + newline);
-            }
         }
 
         // Handle exit menu button action.
         else if (e.getSource() == menuBar.getExit())
         {
-            int returnVal = fc.APPROVE_OPTION;
-            if (returnVal == JFileChooser.APPROVE_OPTION)
-            {
-                System.exit(0);
-            }
+            System.exit(0);
         }
 
         else if (e.getSource() == exit)
         {
-            int returnVal = fc.APPROVE_OPTION;
-            if (returnVal == JFileChooser.APPROVE_OPTION)
+            System.exit(0);
+        }
+        
+        else if (e.getSource() == calculate)
+        {
+            if (panel1.getStats().equalsIgnoreCase("average"))
             {
-                System.exit(0);
+                panel4.retrieveData(mapData, StatsType.AVERAGE, panel2.getParameter());
+            }
+
+
+            else if (panel1.getStats().equalsIgnoreCase("maximum"))
+            {
+                panel4.retrieveData(mapData, StatsType.MAXIMUM, paramId);
+            }
+            
+            else if (panel1.getStats().equalsIgnoreCase("minimum"))
+            {
+                panel4.retrieveData(mapData, StatsType.MINIMUM, paramId);
             }
         }
     }
