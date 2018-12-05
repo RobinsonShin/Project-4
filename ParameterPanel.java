@@ -1,6 +1,4 @@
 import java.awt.GridLayout;
-
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -13,26 +11,36 @@ import javax.swing.JRadioButton;
  */
 public class ParameterPanel extends JPanel
 {
+    // Text that describes this panel
     JLabel label = new JLabel("Parameter");
 
-    // MINIMUM check box
-    JCheckBox MINIMUM = new JCheckBox("MINIMUM");
+    // TAIR radio button
+    JRadioButton TAIR = new JRadioButton("TAIR");
 
-    // MAXIMUM check box
-    JCheckBox MAXIMUM = new JCheckBox("MAXIMUM");
+    // TA9M radio button
+    JRadioButton TA9M = new JRadioButton("TA9M");
 
-    // AVERAGE check box
-    JCheckBox AVERAGE = new JCheckBox("AVERAGE");
+    // SRAD radio button
+    JRadioButton SRAD = new JRadioButton("SRAD");
+
+    // WSPD radio button
+    JRadioButton WSPD = new JRadioButton("WSPD");
+
+    // PRES radio button
+    JRadioButton PRES = new JRadioButton("PRES");
 
     // JPanel for the ParameterFrame
-    JPanel panel1 = new JPanel(new GridLayout(4, 0));
+    JPanel panel1 = new JPanel(new GridLayout(6, 0));
 
     public ParameterPanel()
-    {
+    {        
+        // Adds the buttons to the panel
         panel1.add(label);
-        panel1.add(MINIMUM);
-        panel1.add(MAXIMUM);
-        panel1.add(AVERAGE);
+        panel1.add(TAIR);
+        panel1.add(TA9M);
+        panel1.add(SRAD);
+        panel1.add(WSPD);
+        panel1.add(PRES);    
     }
     
     public JPanel getPanel()
