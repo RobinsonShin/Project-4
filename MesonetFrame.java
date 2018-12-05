@@ -3,6 +3,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -50,10 +51,10 @@ public class MesonetFrame extends JFrame implements ActionListener
 
     // MenuBar for the frame
     FileMenuBar menuBar = new FileMenuBar();
-    
+
     // Text for the north section of the frame
     JLabel northLabel = new JLabel("Mesonet - We don't set records, we report them!");
-    
+
     JFileChooser fc;
     JTextArea log;
     static private final String newline = "\n";
@@ -63,6 +64,7 @@ public class MesonetFrame extends JFrame implements ActionListener
         JMenuItem openDataFile = new JMenuItem("Open Data File");
         JMenuItem exit = new JMenuItem("Exit");
         JMenu fileMenu = new JMenu("File");
+
         public FileMenuBar()
         {
             fileMenu.add(openDataFile);
@@ -74,7 +76,7 @@ public class MesonetFrame extends JFrame implements ActionListener
         {
             return this.openDataFile;
         }
-        
+
         public JMenuItem getExit()
         {
             return this.exit;
@@ -108,45 +110,90 @@ public class MesonetFrame extends JFrame implements ActionListener
         add(panel3, BorderLayout.SOUTH);
 
         add(panel4.getDataPanel(), BorderLayout.CENTER);
-
+        
         // Configuring of the frame
         setVisible(true);
         setResizable(true);
         setSize(800, 400);
-        
+
         fc = new JFileChooser();
-        
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
         menuBar.getOpenDataFile().addActionListener(this);
         menuBar.getExit().addActionListener(this);
+        
+        exit.addActionListener(this);
     }
-    
+
     public void actionPerformed(ActionEvent e)
     {
-      //Handle open button action.
-        if (e.getSource() == this.menuBar.getOpenDataFile()) {
+        // Handle open button action.
+        if (e.getSource() == menuBar.getOpenDataFile())
+        {
             int returnVal = fc.showOpenDialog(MesonetFrame.this);
- 
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fc.getSelectedFile();
-                //This is where a real application would open the file.
-                log.append("Opening: " + file.getName() + "." + newline);
-            } else {
+
+            String filename = "";
+
+            int YEAR = 0;
+
+            int MONTH = 0;
+
+            int DAY = 0;
+
+            int HOUR = 0;
+
+            int MINUTE = 0;
+
+            String directory = "";
+
+            if (returnVal == JFileChooser.APPROVE_OPTION)
+            {
+                String file = fc.getSelectedFile().getName();
+                directory = fc.getCurrentDirectory().getName();
+                // This is where a real application would open the file.
+                filename = directory + "/" + file;
+                System.out.println(filename);
+                YEAR = (file.charAt(0) + file.charAt(1) + file.charAt(2) + file.charAt(3));
+                System.out.println(YEAR);
+                MONTH = (file.charAt(4) + file.charAt(5));
+                DAY = (file.charAt(6) + file.charAt(7));
+                HOUR = (file.charAt(8) + file.charAt(9));
+                MINUTE = (file.charAt(10) + file.charAt(11));
+
+                MapData mapData = new MapData(YEAR, MONTH, DAY, HOUR, MINUTE, directory);
+
+                try
+                {
+                    mapData.parseFile();
+                }
+                catch (IOException e1)
+                {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+            else
+            {
                 log.append("Open command cancelled by user." + newline);
             }
-            log.setCaretPosition(log.getDocument().getLength());
- 
-        //Handle save button action.
-        } else if (e.getSource() == this.menuBar.getExit()) {
-            int returnVal = fc.showSaveDialog(MesonetFrame.this);
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fc.getSelectedFile();
-                //This is where a real application would save the file.
-                log.append("Saving: " + file.getName() + "." + newline);
-            } else {
-                log.append("Save command cancelled by user." + newline);
+        }
+
+        // Handle exit menu button action.
+        else if (e.getSource() == menuBar.getExit())
+        {
+            int returnVal = fc.APPROVE_OPTION;
+            if (returnVal == JFileChooser.APPROVE_OPTION)
+            {
+                System.exit(0);
             }
-            log.setCaretPosition(log.getDocument().getLength());
+        }
+
+        else if (e.getSource() == exit)
+        {
+            int returnVal = fc.APPROVE_OPTION;
+            if (returnVal == JFileChooser.APPROVE_OPTION)
+            {
+                System.exit(0);
+            }
         }
     }
 
