@@ -5,6 +5,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 /**
  * 
@@ -17,9 +18,15 @@ public class MesonetFrame extends JFrame
     // JPanel for the frame
     JPanel panel0 = new JPanel();
     
-    // JLabels for the frame
-    JLabel northLabel = new JLabel("Mesonet - We don't set records, we report them!");
+    // StatisticsPanel for the frame
+    StatisticsPanel panel1 = new StatisticsPanel();
     
+    // ParameterPanel for the frame
+    ParameterPanel panel2 = new ParameterPanel();
+    
+    // Text for the north section of the frame
+    JLabel northLabel = new JLabel("Mesonet - We don't set records, we report them!");
+       
     class FileMenuBar extends JMenuBar
     {
         public FileMenuBar()
@@ -47,7 +54,12 @@ public class MesonetFrame extends JFrame
         
         // Add the panels into the frame.
         panel0.add(northLabel);
+        
         add(panel0, BorderLayout.NORTH);
+        
+        add(panel1.getPanel(), BorderLayout.WEST);
+        
+        add(panel2.getPanel(), BorderLayout.EAST);
         
         // Configuring of the frame
         setVisible(true);
