@@ -1,4 +1,6 @@
 import java.awt.BorderLayout;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -15,7 +17,7 @@ import javax.swing.JRadioButton;
 
 public class MesonetFrame extends JFrame
 {
-    // JPanel for the frame
+    // Panel for the text at the top of frame
     JPanel panel0 = new JPanel();
     
     // StatisticsPanel for the frame
@@ -23,6 +25,18 @@ public class MesonetFrame extends JFrame
     
     // ParameterPanel for the frame
     ParameterPanel panel2 = new ParameterPanel();
+    
+    // Panel for the calculate and exit button
+    JPanel panel3 = new JPanel();
+    
+    // Panel for the 
+    TablePanel panel4 = new TablePanel();
+    
+    // Calculate button
+    JButton calculate = new JButton("Calculate");
+    
+    // Exit button
+    JButton exit = new JButton("Exit");
     
     // Text for the north section of the frame
     JLabel northLabel = new JLabel("Mesonet - We don't set records, we report them!");
@@ -55,16 +69,24 @@ public class MesonetFrame extends JFrame
         // Add the panels into the frame.
         panel0.add(northLabel);
         
+        panel3.add(calculate);
+        
+        panel3.add(exit);
+        
         add(panel0, BorderLayout.NORTH);
         
         add(panel1.getPanel(), BorderLayout.WEST);
         
         add(panel2.getPanel(), BorderLayout.EAST);
         
+        add(panel3, BorderLayout.SOUTH);
+        
+        add(panel4.getDataPanel(), BorderLayout.CENTER);
+        
         // Configuring of the frame
         setVisible(true);
-        setResizable(false);
-        setSize(600,400);
+        setResizable(true);
+        setSize(800,400);
     }
     
     public static void main(String[] args) 
