@@ -123,9 +123,7 @@ public class MesonetFrame extends JFrame implements ActionListener
      * Runs an action given a specific input
      */
     public void actionPerformed(ActionEvent e)
-    {
-        fc.setCurrentDirectory(new File  ("C:\\Users\\Robinson Shin\\Desktop\\School\\Fall 2018\\CS\\Project 4\\data"));
-        
+    {     
         // Handle open button action
         if (e.getSource() == menuBar.openDataFile)
         {
