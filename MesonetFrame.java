@@ -56,7 +56,6 @@ public class MesonetFrame extends JFrame implements ActionListener
     JLabel northLabel = new JLabel("Mesonet - We don't set records, we report them!");
 
     JFileChooser fc;
-    JTextArea log;
     
     MapData mapData;
     String paramId = "";
@@ -125,11 +124,12 @@ public class MesonetFrame extends JFrame implements ActionListener
         menuBar.getExit().addActionListener(this);
         exit.addActionListener(this);
         calculate.addActionListener(this);
-        
     }
 
     public void actionPerformed(ActionEvent e)
     {
+        fc.setCurrentDirectory(new File  ("C:\\Users\\Robinson Shin\\Desktop\\School\\Fall 2018\\CS\\Project 4\\data"));
+        
         // Handle open button action.
         if (e.getSource() == menuBar.getOpenDataFile())
         {
@@ -148,15 +148,16 @@ public class MesonetFrame extends JFrame implements ActionListener
             int MINUTE = 0;
 
             String directory = "";
-
+            
             if (returnVal == JFileChooser.APPROVE_OPTION)
             {
                 String file = fc.getSelectedFile().getName();
                 directory = fc.getCurrentDirectory().getName();
-                // This is where a real application would open the file.
+                
                 filename = directory + "/" + file;
                 
                 String[] letters = file.split("");
+                
                 String numbers = letters[0] + letters[1] + letters[2] + letters[3];
                 YEAR = Integer.parseInt(numbers);
                 
@@ -177,7 +178,6 @@ public class MesonetFrame extends JFrame implements ActionListener
                 try
                 {
                     mapData.parseFile();
-                    System.out.println(mapData.getStatistics(StatsType.AVERAGE, "TAIR").getValue());
                 }
                 catch (IOException e1)
                 {
@@ -200,20 +200,90 @@ public class MesonetFrame extends JFrame implements ActionListener
         
         else if (e.getSource() == calculate)
         {
-            if (panel1.getStats().equalsIgnoreCase("average"))
+            panel4.tableModel.setRowCount(0); 
+            
+            if (panel1.AVERAGE.isSelected())
             {
-                panel4.retrieveData(mapData, StatsType.AVERAGE, panel2.getParameter());
+                if (panel2.TAIR.isSelected())
+                {
+                panel4.retrieveData(mapData, StatsType.AVERAGE, "TAIR");
+                }
+                
+                if (panel2.TA9M.isSelected())
+                {
+                    panel4.retrieveData(mapData, StatsType.AVERAGE, "TA9M");
+                }
+                
+                if (panel2.SRAD.isSelected())
+                {
+                    panel4.retrieveData(mapData, StatsType.AVERAGE, "SRAD");
+                }
+                
+                if (panel2.WSPD.isSelected())
+                {
+                   panel4.retrieveData(mapData, StatsType.AVERAGE, "WSPD");
+                }
+                
+                if (panel2.PRES.isSelected())
+                {
+                    panel4.retrieveData(mapData, StatsType.AVERAGE, "PRES");
+                }
             }
 
-
-            else if (panel1.getStats().equalsIgnoreCase("maximum"))
+            else if (panel1.MAXIMUM.isSelected())
             {
-                panel4.retrieveData(mapData, StatsType.MAXIMUM, paramId);
+                if (panel2.TAIR.isSelected())
+                {
+                    panel4.retrieveData(mapData, StatsType.MAXIMUM, "TAIR");
+                }
+                
+                if (panel2.TA9M.isSelected())
+                {
+                    panel4.retrieveData(mapData, StatsType.MAXIMUM, "TA9M");
+                }
+                
+                if (panel2.SRAD.isSelected())
+                {
+                    panel4.retrieveData(mapData, StatsType.MAXIMUM, "SRAD");
+                }
+                
+                if (panel2.WSPD.isSelected())
+                {
+                    panel4.retrieveData(mapData, StatsType.MAXIMUM, "WSPD");
+                }
+                
+                if (panel2.PRES.isSelected())
+                {
+                    panel4.retrieveData(mapData, StatsType.MAXIMUM, "PRES");
+                }
             }
             
-            else if (panel1.getStats().equalsIgnoreCase("minimum"))
+            else if (panel1.MINIMUM.isSelected())
             {
-                panel4.retrieveData(mapData, StatsType.MINIMUM, paramId);
+                if (panel2.TAIR.isSelected())
+                {
+                    panel4.retrieveData(mapData, StatsType.MINIMUM, "TAIR");
+                }
+                
+                if (panel2.TA9M.isSelected())
+                {
+                    panel4.retrieveData(mapData, StatsType.MINIMUM, "TA9M");
+                }
+                
+                if (panel2.SRAD.isSelected())
+                {
+                    panel4.retrieveData(mapData, StatsType.MINIMUM, "SRAD");
+                }
+                
+                if (panel2.WSPD.isSelected())
+                {
+                    panel4.retrieveData(mapData, StatsType.MINIMUM, "WSPD");
+                }
+                
+                if (panel2.PRES.isSelected())
+                {
+                    panel4.retrieveData(mapData, StatsType.MINIMUM, "PRES");
+                }
             }
         }
     }
