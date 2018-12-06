@@ -1,4 +1,6 @@
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
@@ -44,6 +46,9 @@ public class StatisticsPanel extends JPanel
         panel1.add(MINIMUM);
         panel1.add(MAXIMUM);
         panel1.add(AVERAGE);
+
+        MAXIMUM.setSelected(true);
+        
     }
     
     public JPanel getPanel()
