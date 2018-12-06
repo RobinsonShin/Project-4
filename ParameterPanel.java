@@ -1,4 +1,7 @@
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -31,7 +34,7 @@ public class ParameterPanel extends JPanel
 
     // JPanel for the ParameterFrame
     JPanel panel1 = new JPanel(new GridLayout(6, 0));
-
+    
     public ParameterPanel()
     {        
         // Adds the buttons to the panel
