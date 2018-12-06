@@ -44,6 +44,12 @@ public class MapData
 
     // String name to search for STID
     private String STID = "STID";
+    
+    // String name to search for WSPD
+    private String WSPD = "WSPD";
+    
+    // String name to search for PRES
+    private String PRES = "PRES";
 
     // The String inputed for average and total statistic Observations
     private String MESONET = "Mesonet";
@@ -146,6 +152,18 @@ public class MapData
             {
                 paramPositions.put(STID, a);
             }
+            
+            // Finds the WSPD position
+            else if (info[a].equalsIgnoreCase(WSPD))
+            {
+                paramPositions.put(WSPD, a);
+            }
+            
+            // Finds the PRES position
+            else if (info[a].equalsIgnoreCase(PRES))
+            {
+                paramPositions.put(PRES, a);
+            }
         }
     }
 
@@ -153,7 +171,7 @@ public class MapData
      * Finds the position that the inParamStr is
      * 
      * @param inParamStr
-     *            String to find: SRAD, TAIR, TA9M, or STID
+     *            String to find: SRAD, TAIR, TA9M, STID, WSPD, and PRES
      * @return Integer of the position of ParamStr
      * @throws IOException
      *             throws IOException
@@ -165,7 +183,7 @@ public class MapData
 
     /**
      * Reads the file, stores the data into their respective arrays, then runs
-     * the statistics for tair, ta9m, and srad
+     * the statistics for tair, ta9m, srad, wspd, and pres
      * 
      * @throws IOException
      *             throws IOException
@@ -178,6 +196,8 @@ public class MapData
         ArrayList<Observation> sradData = new ArrayList<Observation>();
         ArrayList<Observation> tairData = new ArrayList<Observation>();
         ArrayList<Observation> ta9mData = new ArrayList<Observation>();
+        ArrayList<Observation> wspdData = new ArrayList<Observation>();
+        ArrayList<Observation> presData = new ArrayList<Observation>();
 
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         // Throws out the first 3 lines
@@ -197,7 +217,9 @@ public class MapData
             sradData.add(new Observation(Integer.parseInt(info[getIndexOf(SRAD)]), info[getIndexOf(STID)]));
             tairData.add(new Observation(Float.parseFloat(info[getIndexOf(TAIR)]), info[getIndexOf(STID)]));
             ta9mData.add(new Observation(Float.parseFloat(info[getIndexOf(TA9M)]), info[getIndexOf(STID)]));
-
+            wspdData.add(new Observation(Float.parseFloat(info[getIndexOf(WSPD)]), info[getIndexOf(STID)]));
+            presData.add(new Observation(Float.parseFloat(info[getIndexOf(PRES)]), info[getIndexOf(STID)]));
+            
             numberOfStations++;
             strg = br.readLine();
         }
@@ -208,12 +230,14 @@ public class MapData
         dataCatalog.put(SRAD, sradData);
         dataCatalog.put(TAIR, tairData);
         dataCatalog.put(TA9M, ta9mData);
+        dataCatalog.put(WSPD, wspdData);
+        dataCatalog.put(PRES, presData);
 
         calculateStatistics();
     }
 
     /**
-     * Calculates all the Statistics for TA9M, TAIR, and SRAD
+     * Calculates all the Statistics for TA9M, TAIR, SRAD, WSPD, and PRES
      */
     private void calculateAllStatistics()
     {
@@ -431,6 +455,144 @@ public class MapData
         maxValues.put("TA9M", ta9mMax);
         averageValues.put("TA9M", ta9mAverage);
 
+        // Starts the calculations for WSPD data
+        // Resets the variables for new calculations
+        notValid = 0;
+        stidMin = "";
+        stidMax = "";
+        minValue = Integer.MAX_VALUE;
+        maxValue = Integer.MIN_VALUE;
+        numberOfValidStations = 0;
+        averageValue = 0;
+        totalValue = 0;
+
+        // Calculates the minimum value
+        for (int i = 0; i < dataCatalog.get(WSPD).size(); ++i)
+        {
+            // Checks if there are less than the
+            // NUMBER_OF_MISSING_OBSERVATIONS to still run calculations
+            if (notValid < NUMBER_OF_MISSING_OBSERVATIONS)
+            {
+                // Checks if the value is valid
+                if (dataCatalog.get(WSPD).get(i).isValid())
+                {
+                    // Checks if this value is less than the current lowest
+                    // stored value
+                    if (dataCatalog.get(WSPD).get(i).getValue() < minValue)
+                    {
+                        minValue = dataCatalog.get(WSPD).get(i).getValue();
+                        stidMin = dataCatalog.get(WSPD).get(i).getStid();
+                    }
+
+                    if (dataCatalog.get(WSPD).get(i).getValue() > maxValue)
+                    {
+                        maxValue = dataCatalog.get(WSPD).get(i).getValue();
+                        stidMax = dataCatalog.get(WSPD).get(i).getStid();
+                    }
+
+                    totalValue = totalValue + dataCatalog.get(WSPD).get(i).getValue();
+                }
+
+                // If the value isn't valid then adds to a counter
+                else
+                {
+                    notValid++;
+                }
+            }
+
+            // Too many missing observations so returns data with an
+            // error value of -999
+            else
+            {
+                stidMax = "NULL";
+                stidMin = "NULL";
+                minValue = -999;
+                maxValue = -999;
+            }
+        }
+
+        numberOfValidStations = numberOfStations - notValid;
+        averageValue = totalValue / numberOfValidStations;
+
+        // Creates statistics for WSPD data
+        Statistics wspdMin = new Statistics(minValue, stidMin, utcDateTime, numberOfValidStations, StatsType.MINIMUM);
+        Statistics wspdMax = new Statistics(maxValue, stidMax, utcDateTime, numberOfValidStations, StatsType.MAXIMUM);
+        Statistics wspdAverage = new Statistics(averageValue, MESONET, utcDateTime, numberOfValidStations,
+                StatsType.AVERAGE);
+
+        minValues.put("WSPD", wspdMin);
+        maxValues.put("WSPD", wspdMax);
+        averageValues.put("WSPD", wspdAverage);
+        
+        // Starts the calculations for PRES data
+        // Resets the variables for new calculations
+        notValid = 0;
+        stidMin = "";
+        stidMax = "";
+        minValue = Integer.MAX_VALUE;
+        maxValue = Integer.MIN_VALUE;
+        numberOfValidStations = 0;
+        averageValue = 0;
+        totalValue = 0;
+
+        // Calculates the minimum value
+        for (int i = 0; i < dataCatalog.get(PRES).size(); ++i)
+        {
+            // Checks if there are less than the
+            // NUMBER_OF_MISSING_OBSERVATIONS to still run calculations
+            if (notValid < NUMBER_OF_MISSING_OBSERVATIONS)
+            {
+                // Checks if the value is valid
+                if (dataCatalog.get(PRES).get(i).isValid())
+                {
+                    // Checks if this value is less than the current lowest
+                    // stored value
+                    if (dataCatalog.get(PRES).get(i).getValue() < minValue)
+                    {
+                        minValue = dataCatalog.get(PRES).get(i).getValue();
+                        stidMin = dataCatalog.get(PRES).get(i).getStid();
+                    }
+
+                    if (dataCatalog.get(PRES).get(i).getValue() > maxValue)
+                    {
+                        maxValue = dataCatalog.get(PRES).get(i).getValue();
+                        stidMax = dataCatalog.get(PRES).get(i).getStid();
+                    }
+
+                    totalValue = totalValue + dataCatalog.get(PRES).get(i).getValue();
+                }
+
+                // If the value isn't valid then adds to a counter
+                else
+                {
+                    notValid++;
+                }
+            }
+
+            // Too many missing observations so returns data with an
+            // error value of -999
+            else
+            {
+                stidMax = "NULL";
+                stidMin = "NULL";
+                minValue = -999;
+                maxValue = -999;
+            }
+        }
+
+        numberOfValidStations = numberOfStations - notValid;
+        averageValue = totalValue / numberOfValidStations;
+
+        // Creates statistics for PRES data
+        Statistics presMin = new Statistics(minValue, stidMin, utcDateTime, numberOfValidStations, StatsType.MINIMUM);
+        Statistics presMax = new Statistics(maxValue, stidMax, utcDateTime, numberOfValidStations, StatsType.MAXIMUM);
+        Statistics presAverage = new Statistics(averageValue, MESONET, utcDateTime, numberOfValidStations,
+                StatsType.AVERAGE);
+
+        minValues.put("PRES", presMin);
+        maxValues.put("PRES", presMax);
+        averageValues.put("PRES", presAverage);
+        
         // Populates the statistics EnumMap
         statistics.put(StatsType.MINIMUM, minValues);
         statistics.put(StatsType.MAXIMUM, maxValues);
