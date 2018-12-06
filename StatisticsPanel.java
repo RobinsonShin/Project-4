@@ -44,8 +44,8 @@ public class StatisticsPanel extends JPanel
         // Adds the check boxes to the panel
         statisticsPanel.add(label);
         statisticsPanel.add(MINIMUM);
-        statisticsPanel.add(MAXIMUM);
         statisticsPanel.add(AVERAGE);
+        statisticsPanel.add(MAXIMUM);
 
         // Selects the MAXIMUM button as the default
         MAXIMUM.setSelected(true);

@@ -92,7 +92,7 @@ public class TablePanel extends JPanel
         station = data.getStatistics(stats, paramId).getStid();
         parameter = paramId;
         statistics = stats.toString();
-        value = Double.toString(data.getStatistics(stats, paramId).getValue());
+        value = Double.toString((double)Math.round(data.getStatistics(stats, paramId).getValue() * 10d) / 10d);
         reportingStation = Integer.toString(data.getStatistics(stats, paramId).getNumberOfReportingStations());
         date = data.getStatistics(stats, paramId).getUTCDateTimeString();
         
