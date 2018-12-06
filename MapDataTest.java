@@ -5,7 +5,7 @@ import org.junit.Test;
  * Tests the MapData class
  * 
  * @author Robinson Shin
- * @version 2018-10-28
+ * @version 2018-12-5
  */
 public class MapDataTest
 {
@@ -35,6 +35,8 @@ public class MapDataTest
             String SRAD = "SRAD";
             String TA9M = "TA9M";
             String TAIR = "TAIR";
+            String WSPD = "WSPD";
+            String PRES = "PRES";
 
             Assert.assertEquals(828.1, test.getStatistics(StatsType.AVERAGE, SRAD).getValue(), 0.1);
             Assert.assertEquals(163.0, test.getStatistics(StatsType.MINIMUM, SRAD).getValue(), 0.1);
@@ -46,6 +48,12 @@ public class MapDataTest
             Assert.assertEquals(31.6, test.getStatistics(StatsType.AVERAGE, TA9M).getValue(), 0.1);
             Assert.assertEquals(20.7, test.getStatistics(StatsType.MINIMUM, TA9M).getValue(), 0.1);
             Assert.assertEquals(34.9, test.getStatistics(StatsType.MAXIMUM, TA9M).getValue(), 0.1);
+            Assert.assertEquals(3.9, test.getStatistics(StatsType.AVERAGE, WSPD).getValue(), 0.1);
+            Assert.assertEquals(0.6, test.getStatistics(StatsType.MINIMUM, WSPD).getValue(), 0.1);
+            Assert.assertEquals(10.4, test.getStatistics(StatsType.MAXIMUM, WSPD).getValue(), 0.1);
+            Assert.assertEquals(973.7, test.getStatistics(StatsType.AVERAGE, PRES).getValue(), 0.1);
+            Assert.assertEquals(868.7, test.getStatistics(StatsType.MINIMUM, PRES).getValue(), 0.1);
+            Assert.assertEquals(1004.5, test.getStatistics(StatsType.MAXIMUM, PRES).getValue(), 0.1);
 
             MapData testError = new MapData(2018, 9, 18, 7, 00, "data");
             testError.parseFile();
@@ -60,6 +68,12 @@ public class MapDataTest
             Assert.assertEquals(0, testError.getStatistics(StatsType.AVERAGE, TA9M).getValue(), 0.1);
             Assert.assertEquals(-999.0, testError.getStatistics(StatsType.MINIMUM, TA9M).getValue(), 0.1);
             Assert.assertEquals(-999.0, testError.getStatistics(StatsType.MAXIMUM, TA9M).getValue(), 0.1);
+            Assert.assertEquals(3.9, test.getStatistics(StatsType.AVERAGE, WSPD).getValue(), 0.1);
+            Assert.assertEquals(0.6, test.getStatistics(StatsType.MINIMUM, WSPD).getValue(), 0.1);
+            Assert.assertEquals(10.4, test.getStatistics(StatsType.MAXIMUM, WSPD).getValue(), 0.1);
+            Assert.assertEquals(973.7, test.getStatistics(StatsType.AVERAGE, PRES).getValue(), 0.1);
+            Assert.assertEquals(868.7, test.getStatistics(StatsType.MINIMUM, PRES).getValue(), 0.1);
+            Assert.assertEquals(1004.5, test.getStatistics(StatsType.MAXIMUM, PRES).getValue(), 0.1);
         }
 
         catch (Exception e)
