@@ -1,0 +1,58 @@
+{
+    "Lab Section": 13,
+    "Last Modified": 2018-12-5,
+    "OU ID": 113083503,
+    "OU EMAIL": robinsonshin@ou.edu,
+    "Tasks": [
+        {
+            "Description": Created the menuBar class in the MesonetFrame class,
+            "Estimated Time (Minutes)": 30
+            "Actual Time (Minutes)": 30
+        },
+        {
+            "Description": Created StatisticsPanel class,
+            "Estimated Time (Minutes)": 30
+            "Actual Time (Minutes)": 30
+        },
+        {
+            "Description": Created ParameterPanel class,
+            "Estimated Time (Minutes)": 30
+            "Actual Time (Minutes)": 30
+        },
+        {
+        	"Description": Created TablePanel class,
+        	"Estimated Time (Minutes)": 30
+        	"Actual Time (Minutes)": 45
+        },
+        {
+        	"Description": Added retrieveData method in the TablePanel,
+        	"Estimated Time (Minutes)": 30
+        	"Actual Time (Minutes)": 45
+        },
+        {
+            "Description": Created the MesonetFrame class constructor,
+            "Estimated Time (Minutes)": 30
+            "Actual Time (Minutes)": 30
+        },
+        {
+            "Description": Added the actionListeners and implemented in MesonetFrame class,
+            "Estimated Time (Minutes)": 30
+            "Actual Time (Minutes)": 120
+        },
+        {
+      		"Description": Added the WSPD and PRES calculations to the MapData class,
+            "Estimated Time (Minutes)": 45
+            "Actual Time (Minutes)": 30
+        },
+        {
+      		"Description": Fixed the parseFileTest in the MapDataTest class,
+            "Estimated Time (Minutes)": 30
+            "Actual Time (Minutes)": 10
+        },
+        {
+      		"Description": Fixed the createStringFromDate in the Statistics class and the unit test,
+            "Estimated Time (Minutes)": 30
+            "Actual Time (Minutes)": 10
+        },
+    ]
+}

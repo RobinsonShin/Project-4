@@ -78,8 +78,8 @@ public class MesonetFrame extends JFrame implements ActionListener
     }
 
     /**
-     * 
-     * @param title
+     * The constructor for the MesonetFrame class
+     * @param title the title of the frame
      */
     public MesonetFrame(String title)
     {
