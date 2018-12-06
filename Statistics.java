@@ -2,6 +2,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -122,8 +123,10 @@ public class Statistics extends Observation implements DateTimeComparable
      */
     public String createStringFromDate(GregorianCalendar calendar)
     {
+        calendar.add(calendar.MONTH, -1);
         SimpleDateFormat date = new SimpleDateFormat(DATE_TIME_FORMAT);
         String dateString = date.format(calendar.getTime());
+        calendar.add(calendar.MONTH, 1);
         return dateString;
     }
 

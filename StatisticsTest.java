@@ -65,7 +65,7 @@ public class StatisticsTest
             Statistics testStat = new Statistics(1, "test", test, 10, StatsType.MINIMUM);
 
             String actual = testStat.getUTCDateTimeString();
-            String expected = "2018-10-30T17:45:00 CDT";
+            String expected = "2018-09-30T17:45:00 CDT";
 
             Assert.assertEquals(expected, actual);
         }
@@ -231,7 +231,7 @@ public class StatisticsTest
         GregorianCalendar test = new GregorianCalendar(2018, 9, 30, 17, 45);
         Statistics testStat = new Statistics(1, "test", test, 10, StatsType.TOTAL);
         String actual = testStat.toString();
-        String expected = "2018-10-30T17:45:00 CDT TOTAL";
+        String expected = "2018-09-30T17:45:00 CDT TOTAL";
         Assert.assertEquals(expected, actual);
     }
 
