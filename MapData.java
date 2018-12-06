@@ -13,7 +13,7 @@ import java.util.TreeMap;
  * year, month, day, hour, and minute.
  * 
  * @author Robinson Shin
- * @version 2018-10-28
+ * @version 2018-12-5
  */
 public class MapData
 {
@@ -114,7 +114,7 @@ public class MapData
     }
 
     /**
-     * Takes the string and sets the positions for SRAD, TA9M, TAIR, and STID
+     * Takes the string and sets the positions for SRAD, TA9M, TAIR, STID, WSPD, and PRES
      * 
      * @param inParamStr
      *            the string to read for the positions

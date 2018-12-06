@@ -1,17 +1,14 @@
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * The StatisticsPanel 
+ * The StatisticsPanel to create the buttons and to the panel.
  * 
  * @author Robinson Shin
- * @version 2018-12-4
+ * @version 2018-12-5
  */
 
 public class StatisticsPanel extends JPanel
@@ -31,9 +28,12 @@ public class StatisticsPanel extends JPanel
     // AVERAGE check box
     JCheckBox AVERAGE = new JCheckBox("AVERAGE");
 
-    // JPanel for the ParameterFrame
-    JPanel panel1 = new JPanel(new GridLayout(4, 0));
+    // JPanel for the StatisticsFrame
+    JPanel statisticsPanel = new JPanel(new GridLayout(4, 0));
 
+    /**
+     * Constructor for the StatisticsPanel class
+     */
     public StatisticsPanel()
     {
         // Adds the check boxes to the button group
@@ -42,17 +42,13 @@ public class StatisticsPanel extends JPanel
         group.add(AVERAGE);
 
         // Adds the check boxes to the panel
-        panel1.add(label);
-        panel1.add(MINIMUM);
-        panel1.add(MAXIMUM);
-        panel1.add(AVERAGE);
+        statisticsPanel.add(label);
+        statisticsPanel.add(MINIMUM);
+        statisticsPanel.add(MAXIMUM);
+        statisticsPanel.add(AVERAGE);
 
+        // Selects the MAXIMUM button as the default
         MAXIMUM.setSelected(true);
         
-    }
-    
-    public JPanel getPanel()
-    {
-        return this.panel1;
     }
 }
